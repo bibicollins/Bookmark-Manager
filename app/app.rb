@@ -10,6 +10,7 @@ class BookmarkManager < Sinatra::Base
     @bookmarks = Bookmark.all
     p Bookmark.all
     erb :view
+
   end
 
   run! if app_file == $PROGRAM_NAME
