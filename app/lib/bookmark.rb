@@ -4,12 +4,20 @@ class Bookmark
 
 
   def self.all
-    if ENV['RACK ENV'] == 'test'
-      con = PG.connect :dbname => 'bookmark_table_test'
+    if ENV['ENVIRONMENT'] == 'test'
+      @con = PG.connect :dbname => 'bookmark_manager_test'
     else
-      con = PG.connect :dbname => 'bookmark_manager'
+      @con = PG.connect :dbname => 'bookmark_manager'
     end
-      result = con.exec "SELECT * FROM bookmarks"
-      result.map { |bookmark| bookmark['url'] }
-    end
+    result = @con.exec "SELECT * FROM bookmarks"
+    result.map { |bookmark| bookmark['url'] }
   end
+    def self.save(bookmark)
+      if ENV['ENVIRONMENT'] == 'test'
+      @con = PG.connect :dbname => 'bookmark_manager_test'
+      else
+      @con = PG.connect :dbname => 'bookmark_manager'
+    end
+    @con.exec("INSERT INTO bookmarks (url) VALUES ('#{bookmark[:url]}')")
+  end
+end
