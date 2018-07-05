@@ -22,7 +22,9 @@ class BookmarkManager < Sinatra::Base
 
   post '/bookmarks' do
     if params['url'] =~ /\A#{URI::regexp(['http', 'https'])}\z/
-    Bookmark.save(url: params['url'], title: params['title'])
+
+    bookmark = Bookmark.save(params['url'], params['title'])
+    #Bookmark.title(title: params['title'])
     redirect '/'
     # p 'Form data submitted to the /bookmarks route!'
     else
