@@ -6,9 +6,9 @@ feature 'Viewing Bookmarks' do
 
     con = PG.connect :dbname => 'bookmark_manager_test'
 
-    Bookmark.save(url: 'http://makersacademy.com')
-    Bookmark.save(url: 'http://destroyallsoftware.com')
-    Bookmark.save(url: 'http://google.com')
+    Bookmark.save(url: 'http://makersacademy.com', title: 'Makers')
+    Bookmark.save(url: 'http://destroyallsoftware.com', title: 'Destroy')
+    Bookmark.save(url: 'http://google.com', title: 'Goog')
     visit '/'
 
     click_button 'View bookmarks'

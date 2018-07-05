@@ -22,14 +22,13 @@ class BookmarkManager < Sinatra::Base
 
   post '/bookmarks' do
     if params['url'] =~ /\A#{URI::regexp(['http', 'https'])}\z/
-    Bookmark.save(url: params['url'])
+    Bookmark.save(url: params['url'], title: params['title'])
     redirect '/'
     # p 'Form data submitted to the /bookmarks route!'
-  else
+    else
     flash[:notice] = "You must submit a valid URL"
-redirect '/bookmarks/new'
-  end
-
+    redirect '/bookmarks/new'
+    end
   end
   run! if app_file == $PROGRAM_NAME
 end
