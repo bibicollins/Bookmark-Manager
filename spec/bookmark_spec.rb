@@ -3,7 +3,6 @@ require 'pg'
 describe Bookmark do
   describe '.all' do
     it 'returns all bookmarks in an array' do
-    con = PG.connect(dbname: 'bookmark_manager_test')
 
     bookmark_1 = Bookmark.save('http://makersacademy.com', 'Makers')
     bookmark_2 = Bookmark.save('http://destroyallsoftware.com', 'Destroy')
@@ -21,7 +20,6 @@ describe Bookmark do
   describe '.save' do
     it 'saves a new bookmark' do
       bookmark = Bookmark.save('http://youtube.com', 'Youtube')
-      #expect(Bookmark.all).to include('http://youtube.com')
       expect(Bookmark.all).to include bookmark
     end
   end
@@ -32,4 +30,13 @@ describe Bookmark do
       expect(bookmark_1).to eq bookmark_2
     end
   end
+  describe '.delete' do
+    it 'deletes a bookmark' do
+      Bookmark.save('http://makersacademy.com', 'Makers')
+      Bookmark.delete(1)
+      bookmarks = Bookmark.all
+      urls = bookmarks.map(&:url)
+      expect(urls).not_to include 'Makers'
+  end
+end
 end

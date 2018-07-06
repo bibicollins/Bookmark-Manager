@@ -6,6 +6,7 @@ require 'uri'
 class BookmarkManager < Sinatra::Base
   enable :sessions
   register Sinatra::Flash
+  set :method_override, true
   get '/' do
     erb :index
   end
@@ -23,7 +24,7 @@ class BookmarkManager < Sinatra::Base
   post '/bookmarks' do
     if params['url'] =~ /\A#{URI::regexp(['http', 'https'])}\z/
 
-    bookmark = Bookmark.save(params['url'], params['title'])
+    Bookmark.save(params['url'], params['title'])
     #Bookmark.title(title: params['title'])
     redirect '/'
     # p 'Form data submitted to the /bookmarks route!'
@@ -31,6 +32,10 @@ class BookmarkManager < Sinatra::Base
     flash[:notice] = "You must submit a valid URL"
     redirect '/bookmarks/new'
     end
+  end
+  delete '/bookmarks/:id' do
+    Bookmark.delete(params['id'])
+    redirect '/bookmarks'
   end
   run! if app_file == $PROGRAM_NAME
 end

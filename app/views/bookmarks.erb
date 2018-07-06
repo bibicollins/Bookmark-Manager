@@ -1,9 +1,20 @@
 <!-- Here are your bookmarks<br> -->
 <ul>
 <% @bookmarks.each do |bookmark| %>
-<li>
-<a href="<%= bookmark.url %>">
-<%= bookmark.title %></li>
+ <!-- <li id="bookmark-<%= bookmark.id %>"> -->
+<a href="<%= bookmark.url %>" target="_blank">
+  <!-- target blank makes link open in new tab.  -->
+  <%= bookmark.title %>
 </a>
-<% end %>
+<form action="/bookmarks/<%= bookmark.id %>" method="POST">
+  <input type='hidden' name='_method' value='DELETE'/>
+  <input type="hidden" name="id" value="<%= bookmark.id %>">
+<input type="submit" id="<%=bookmark.title %>" value="Delete">
+
+</form>
+</li>
+<%end%>
 </ul>
+<form action="/" method="GET">
+  <button type="submit" value="Main page">Back to homepage</button>
+</form>
